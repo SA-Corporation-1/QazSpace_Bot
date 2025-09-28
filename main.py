@@ -1,40 +1,64 @@
 import os
+import asyncio
+import nest_asyncio
 from dotenv import load_dotenv
-from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
-from deep_translator import GoogleTranslator
+from telegram.ext import (
+    ApplicationBuilder,
+    CommandHandler,
+    CallbackQueryHandler,
+)
+
+# ================= Импорт =================
 from handlers.myid import my_id_handler
-from kilt import access  # kilt.py файлынан access функциясын импорттау
-from groupid import group_id_handler  # groupid.py ішіндегі функцияны импорттау
-from translate import get_translate_handlers  # translate.py ішіндегі хендлерлерді импорттау
-from about import about  # about.py файлынан импорттаймыз
-from help_command import help_command  # help_command.py файлын импорттаймыз
+from kilt import access, remove_access, list_admins
+from groupid import group_id_handler
+from translate import get_translate_handlers
+from about import about
+from help_command import help_command
+from word_command import word, set_words, handle_word_choice, my_limit, add_word
+from profile_command import profile
+from registration import start, get_registration_handler
 
-# /start командасы
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Сәлем! QazSpace боты жұмыс істеп тұр 🚀")
+# ================= Негізгі функция =================
+async def main():
+    # --- Токенді жүктеу ---
+    load_dotenv()
+    token = os.getenv("TOKEN")
+    if not token:
+        raise RuntimeError("❌ .env файлында TOKEN мәні табылмады!")
 
-# негізгі функция
-def main():
-    load_dotenv()  # .env файлды жүктейміз
-    token = os.getenv("TOKEN")  # .env ішіндегі TOKEN мәнін аламыз
-
-    # Ботты қолдануға дайындау
+    # --- Қолданбаны құру ---
     app = ApplicationBuilder().token(token).build()
 
-    # Хендлер қосу
+    # ===== Командалар =====
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("myid", my_id_handler))  # myid хендлерін қосамыз
-    app.add_handler(CommandHandler("access", access))  # /access команданы қосу
-    app.add_handler(CommandHandler("groupid", group_id_handler))  # жаңа команда
-    app.add_handlers(get_translate_handlers())
-    app.add_handler(CommandHandler("about", about))  # /about командасын қосу
+    app.add_handler(CommandHandler("myid", my_id_handler))
+    app.add_handler(CommandHandler("groupid", group_id_handler))
+    app.add_handler(CommandHandler("access", access))
+    app.add_handler(CommandHandler("remove_access", remove_access))
+    app.add_handler(CommandHandler("list_admins", list_admins))
+    app.add_handler(CommandHandler("about", about))
     app.add_handler(CommandHandler("help", help_command))
+    app.add_handler(CommandHandler("word", word))
+    app.add_handler(CommandHandler("set_words", set_words))
+    app.add_handler(CommandHandler("profile", profile))
+    app.add_handler(CommandHandler("my_limit", my_limit))
+    app.add_handler(CommandHandler("add_word", add_word))
+    # ====== МҮНДЕМЕЛІ ТҮЗЕТУ: Тіркелуді БІРІНШІ орынға ======
+    app.add_handler(get_registration_handler())   # ✅ БІРІНШІ!
+
+    # ====== Батырма таңдау ======
+    app.add_handler(CallbackQueryHandler(handle_word_choice))  # ✅ ЕКІНШІ!
+
+    # ===== Аударма =====
+    app.add_handlers(get_translate_handlers())
 
     print("✅ Бот іске қосылды. Telegram-нан /start деп жазып көр!")
 
-    # Ботты іске қосу
-    app.run_polling()
+    # --- Бот polling ---
+    await app.run_polling()
 
+# ================= Басты орын =================
 if __name__ == "__main__":
-    main()
+    nest_asyncio.apply()
+    asyncio.run(main())

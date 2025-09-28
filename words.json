@@ -1,0 +1,42 @@
+[
+    {
+        "word": "apple",
+        "translation": "алма",
+        "example": "I eat an apple every day."
+    },
+    {
+        "word": "book",
+        "translation": "кітап",
+        "example": "This book is very interesting."
+    },
+    {
+        "word": "car",
+        "translation": "көлік",
+        "example": "My car is very fast."
+    },
+    {
+        "word": "computer",
+        "translation": "компьютер",
+        "example": "I use my computer for work. - Мен компьютерімді жұмыс үшін пайдаланамын."
+    },
+    {
+        "word": "programming",
+        "translation": "бағдарламалу",
+        "example": "Programming is fun! - Бағдарламалу қызықты!"
+    },
+    {
+        "word": "білім",
+        "translation": "education",
+        "example": "Білім - болашаққа инвестиция. - Education is an investment in the future."
+    },
+    {
+        "word": "book",
+        "translation": "кітап",
+        "example": "I love reading books. - Мен кітап оқуды жақсы көремін."
+    },
+    {
+        "word": "hello",
+        "translation": "сәлем",
+        "example": "Hello, how are you? - Сәлем, қалдайсың?"
+    }
+]

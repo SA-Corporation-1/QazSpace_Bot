@@ -3,7 +3,7 @@ from telegram.ext import ContextTypes
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = """
-╔═════════════📚 *QazSpace Көмек* 📚═════════════╗
+╔📚 *QazSpace Көмек* 📚╗
 
 👋 Қош келдің, білім іздеуші!
 Бұл қосымшада сен:
@@ -11,18 +11,22 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 🔹 Шабыт аласың  
 🔹 Арманыңдағы болашаққа қадам басасың!
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━
 
 🛠️ *Қолжетімді командалар:*
 
+🌟 *Жалпы командалар:*
 🚀 /start – Қосымшамен танысуды бастау  
 🧾 /about – Қосымша жайлы толық ақпарат  
-🆔 /myid – Telegram ID-ді білу  
-🔐 /access – Курсқа кіру өтінімі  
-🌐 /translate – Аударма жасау (EN ↔ KZ)  
 🆘 /help – Осы көмек мәзірі  
+🆔 /myid – Telegram ID-ді білу  
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🌐 *Ағылшын тілі командалары:*
+📖 /word – Кездейсоқ сөзді үйрену  
+📊 /set_words – Күніне сөз жаттау жоспарын орнату  
+🔄 /translate – Аударма жасау (EN ↔ KZ)  
+
+━━━━━━━━━━━━━━━━━━━
 
 💡 *Кеңес:*  
 Әр команда — бір жаңа мүмкіндік.  
@@ -31,6 +35,6 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 Бүгінгі кішкентай қадам —  
 ертеңгі үлкен жетістіктің бастауы!
 
-╚════════════════════════════════════╝
+╚═══════════════════╝
 """
     await update.message.reply_text(text, parse_mode="Markdown")
